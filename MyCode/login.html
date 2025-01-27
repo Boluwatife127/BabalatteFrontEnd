@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Registration Form</title>
+  <link rel="shortcut icon" href="gallery/logo.svg" type="image/x-icon">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="container">
+    <input type="checkbox" id="check">
+    <!-- Login Form -->
+    <div class="login form">
+      <header>Login</header>
+      <form id="loginForm" onsubmit="return validateLoginForm(event)">
+        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+        <a href="#" class="forgot-password">Forgot password?</a>
+        <input type="submit" class="button" value="Login">
+      </form>
+      <div class="signup">
+        <span class="signup">Don't have an account?
+          <label for="check">Signup</label>
+        </span>
+      </div>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="registration form">
+      <header>Signup</header>
+      <form id="signupForm" onsubmit="return validateSignupForm(event)">
+        <input type="email" id="signupEmail" placeholder="Enter your email" required>
+        <input type="password" id="signupPassword" placeholder="Create a password" required>
+        <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+        <input type="submit" class="button" value="Signup">
+      </form>
+      <div class="signup">
+        <span class="signup">Already have an account?
+          <label for="check">Login</label>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Utility function to display error messages
+    function showError(inputElement, message) {
+      const errorSpan = inputElement.nextElementSibling;
+      if (errorSpan && errorSpan.classList.contains('error-message')) {
+        errorSpan.textContent = message;
+        return;
+      }
+      
+      const error = document.createElement('div');
+      error.className = 'error-message';
+      error.textContent = message;
+      error.style.color = 'var(--bs-red)';
+      inputElement.parentNode.insertBefore(error, inputElement.nextSibling);
+    }
+
+    // Utility function to clear error messages
+    function clearErrors(form) {
+      const errors = form.querySelectorAll('.error-message');
+      errors.forEach(error => error.remove());
+    }
+
+    // Login Form Validation
+    function validateLoginForm(event) {
+      event.preventDefault();
+      const form = event.target;
+      clearErrors(form);
+
+      const email = form.querySelector('#loginEmail').value.trim();
+      const password = form.querySelector('#loginPassword').value.trim();
+      let isValid = true;
+
+      // Email validation
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError(form.querySelector('#loginEmail'), 'Please enter a valid email address');
+        isValid = false;
+      }
+
+      // Password validation
+      if (password.length < 8) {
+        showError(form.querySelector('#loginPassword'), 'Password must be at least 8 characters');
+        isValid = false;
+      }
+
+      if (isValid) {
+        // Submit form or make API call
+        alert('Login successful!');
+        form.reset();
+      }
+      return false;
+    }
+
+    // Signup Form Validation
+    function validateSignupForm(event) {
+      event.preventDefault();
+      const form = event.target;
+      clearErrors(form);
+
+      const email = form.querySelector('#signupEmail').value.trim();
+      const password = form.querySelector('#signupPassword').value.trim();
+      const confirmPassword = form.querySelector('#confirmPassword').value.trim();
+      let isValid = true;
+
+      // Email validation
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError(form.querySelector('#signupEmail'), 'Please enter a valid email address');
+        isValid = false;
+      }
+
+      // Password validation
+      if (password.length < 8) {
+        showError(form.querySelector('#signupPassword'), 'Password must be at least 8 characters');
+        isValid = false;
+      }
+
+      // Confirm password validation
+      if (password !== confirmPassword) {
+        showError(form.querySelector('#confirmPassword'), 'Passwords do not match');
+        isValid = false;
+      }
+
+      if (isValid) {
+        // Submit form or make API call
+        alert('Signup successful!');
+        form.reset();
+      }
+      return false;
+    }
+  </script>
+</body>
+</html>

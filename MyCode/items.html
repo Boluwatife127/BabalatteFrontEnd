@@ -1,0 +1,244 @@
+<!-- Added total display in cart sidebar and modal -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Available Items For Order</title>
+    <link rel="shortcut icon" href="gallery/logo.svg" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="items.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="header">
+      <h1>
+        <img class="d-inline-block" src="gallery/logo.svg" alt="logo" />
+        <span class="text-gradient">BabaLatte & Tacos</span>
+      </h1>
+      <div class="cart-icon" onclick="toggleCart()">
+        <i class="fas fa-bag-shopping"></i>
+        <span class="cart-count" id="cartCount">0</span>
+      </div>
+    </div>
+
+    <div class="items-container">
+      <!-- Item list remains the same -->
+      <div class="item">
+        <div
+          class="item-img"
+          style="background-image: url(gallery/cheese-burger.png)"
+        ></div>
+        <h3>Cheese Burger</h3>
+        <p>$3.88</p>
+        <button onclick="addToCart(1, 'Cheese Burger', 3.88)">
+          <i class="fas fa-plus"></i>
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="item">
+        <div
+          class="item-img"
+          style="background-image: url(gallery/toffes-cake.png)"
+        ></div>
+        <h3>Toffe's Cake</h3>
+        <p>$4.00</p>
+        <button onclick="addToCart(2, 'Toffe Cake', 4.00)">
+          <i class="fas fa-plus"></i>
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="item">
+        <div
+          class="item-img"
+          style="background-image: url(gallery/dancake.png)"
+        ></div>
+        <h3>Dancake</h3>
+        <p>$1.99</p>
+        <button onclick="addToCart(3, 'Dancake', 1.99)">
+          <i class="fas fa-plus"></i>
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="item">
+        <div
+          class="item-img"
+          style="background-image: url(gallery/crispy-sandwitch.png)"
+        ></div>
+        <h3>Crispy Sandwitch</h3>
+        <p>$3.00</p>
+        <button onclick="addToCart(4, 'Crispy Sandwitch', 3.00)">
+          <i class="fas fa-plus"></i>
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="item">
+        <div
+          class="item-img"
+          style="background-image: url(gallery/thai-soup.png)"
+        ></div>
+        <h3>Thai Soup</h3>
+        <p>$2.79</p>
+        <button onclick="addToCart(5, 'Thai Soup', 2.79)">
+          <i class="fas fa-plus"></i>
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="item">
+        <div
+          class="item-img"
+          style="background-image: url(gallery/fried-chicken.png)"
+        ></div>
+        <h3>Fried Chicken</h3>
+        <p>$4.00</p>
+        <button onclick="addToCart(6, 'Fried Chicken', 159.99)">
+          <i class="fas fa-plus"></i>
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <!-- Cart Sidebar with Total Section -->
+    <div class="cart-sidebar" id="cartSidebar">
+      <h3><i class="fas fa-shopping-cart"></i> Your Cart</h3>
+      <div class="cart-items" id="cartItems"></div>
+      <!-- Total Display Section -->
+      <div class="cart-total">
+        <hr />
+        <div class="total-row">
+          <span>Subtotal:</span>
+          <span id="subtotal">$0.00</span>
+        </div>
+        <div class="total-row">
+          <span>Tax (10%):</span>
+          <span id="tax">$0.00</span>
+        </div>
+        <div class="total-row grand-total">
+          <span>Total:</span>
+          <span id="total">$0.00</span>
+        </div>
+      </div>
+      <div class="cart-buttons">
+        <div class="button-group">
+          <button class="btn btn-close" onclick="toggleCart()">Close</button>
+          <button class="btn btn-checkout" onclick="checkout()">
+            Check Out
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout Modal with Total -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <h2><i class="fas fa-check-circle"></i> Checkout Successful!</h2>
+        <p>Your total was: <strong id="modalTotal">$0.00</strong></p>
+        <p>Thank you for your purchase. Your items will be shipped soon.</p>
+        <button onclick="closeModal()">Continue Shopping</button>
+      </div>
+    </div>
+
+    <script>
+      // Enhanced cart functionality with total calculation
+      let cart = [];
+      let cartOpen = false;
+
+      function addToCart(id, name, price) {
+        const existingItem = cart.find((item) => item.id === id);
+        if (existingItem) {
+          existingItem.quantity++;
+        } else {
+          cart.push({ id, name, price: parseFloat(price), quantity: 1 });
+        }
+        updateCartDisplay();
+      }
+
+      function updateCartDisplay() {
+        const cartItems = document.getElementById("cartItems");
+        const cartCount = document.getElementById("cartCount");
+        let subtotal = 0;
+
+        cartItems.innerHTML = "";
+        cart.forEach((item) => {
+          subtotal += item.price * item.quantity;
+          const itemElement = document.createElement("div");
+          itemElement.className = "cart-item";
+          itemElement.innerHTML = `
+      <div>
+        <h4>${item.name}</h4>
+        <p>$${(item.price * item.quantity).toFixed(2)}</p>
+      </div>
+      <div class="quantity-controls">
+        <button class="quantity-btn" onclick="changeQuantity(${
+          item.id
+        }, -1)">-</button>
+        <span>${item.quantity}</span>
+        <button class="quantity-btn" onclick="changeQuantity(${
+          item.id
+        }, 1)">+</button>
+        <button class="quantity-btn" onclick="removeItem(${item.id})">×</button>
+      </div>
+    `;
+          cartItems.appendChild(itemElement);
+        });
+
+        // Update totals (tax removed)
+        document.getElementById("subtotal").textContent = `$${subtotal.toFixed(
+          2
+        )}`;
+        document.getElementById("total").textContent = `$${subtotal.toFixed(
+          2
+        )}`;
+        cartCount.textContent = cart.reduce(
+          (sum, item) => sum + item.quantity,
+          0
+        );
+      }
+
+      function changeQuantity(id, delta) {
+        const item = cart.find((item) => item.id === id);
+        if (item) {
+          item.quantity += delta;
+          if (item.quantity < 1) {
+            removeItem(id);
+          }
+          updateCartDisplay();
+        }
+      }
+
+      function removeItem(id) {
+        cart = cart.filter((item) => item.id !== id);
+        updateCartDisplay();
+      }
+
+      function toggleCart() {
+        cartOpen = !cartOpen;
+        document.getElementById("cartSidebar").classList.toggle("active");
+      }
+
+      function checkout() {
+        const total = document.getElementById("total").textContent;
+        document.getElementById("modalTotal").textContent = total;
+        document.getElementById("modalOverlay").style.display = "flex";
+        cart = [];
+        updateCartDisplay();
+        toggleCart();
+      }
+
+      function closeModal() {
+        document.getElementById("modalOverlay").style.display = "none";
+      }
+    </script>
+  </body>
+</html>

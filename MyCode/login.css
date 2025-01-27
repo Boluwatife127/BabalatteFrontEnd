@@ -1,0 +1,140 @@
+/* Updated Color Theme */
+:root {
+  --bs-red: #F17228;
+  --bs-orange: #F17228; /* Primary brand color */
+  --bs-yellow: #FFB30E; /* Secondary accent color */
+  --primary-color: #F17228; /* Main interactive elements */
+  --secondary-color: #FFB30E; /* Secondary interactive elements */
+  --background-color: #FFF5E4; /* Page background */
+  --text-color: #333; /* Primary text color */
+  --error-color: #dc3545; /* Error messages and warnings */
+}
+
+/* Base Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Form Container */
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 430px;
+  width: 100%;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Form Toggle */
+.container .registration {
+  display: none;
+}
+
+#check:checked ~ .registration {
+  display: block;
+}
+
+#check:checked ~ .login {
+  display: none;
+}
+
+#check {
+  display: none;
+}
+
+/* Form Elements */
+.form {
+  padding: 2rem;
+}
+
+.form header {
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+}
+
+.form input {
+  height: 60px;
+  width: 100%;
+  padding: 0 15px;
+  font-size: 17px;
+  margin-bottom: 0.5rem; /* Reduced space for error messages */
+  border: 1px solid var(--secondary-color);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(241, 114, 40, 0.2);
+}
+
+.form .error-message {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.form a {
+  font-size: 16px;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.form a:hover {
+  color: #D45A1C;
+  text-decoration: underline;
+}
+
+.form input.button {
+  color: #fff;
+  background: var(--primary-color);
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 1.7rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form input.button:hover {
+  background: #D45A1C;
+}
+
+/* Signup Prompt */
+.signup {
+  font-size: 17px;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.signup label {
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.signup label:hover {
+  color: #D45A1C;
+  text-decoration: underline;
+}
